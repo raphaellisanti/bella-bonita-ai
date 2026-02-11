@@ -97,7 +97,7 @@ const Index = () => {
               <Button size="lg" className="shadow-elegant text-lg px-8 py-6" asChild>
                 <Link to="/auth?tab=signup">Teste Grátis por 14 dias</Link>
               </Button>
-              <Button size="lg" variant="outline" className="border-primary-foreground/30 text-primary-foreground backdrop-blur-sm text-lg px-8 py-6 hover:bg-primary-foreground/10" asChild>
+              <Button size="lg" variant="outline" className="border-white/40 text-white backdrop-blur-sm text-lg px-8 py-6 bg-white/10 hover:bg-white/20" asChild>
                 <Link to="#features">Ver Funcionalidades</Link>
               </Button>
             </div>
