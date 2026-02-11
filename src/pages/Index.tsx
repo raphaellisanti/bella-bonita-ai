@@ -86,9 +86,15 @@ const Index = () => {
             <span className="mb-4 inline-block rounded-full bg-primary/20 px-4 py-1.5 text-sm font-medium text-primary-foreground backdrop-blur-sm">
               ✨ Potencializado por IA
             </span>
-            <h1 className="mb-6 font-display text-5xl font-bold leading-tight text-primary-foreground md:text-7xl">
+            <h1 className="mb-6 font-display text-5xl font-bold leading-tight text-primary-foreground md:text-7xl" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.3)" }}>
               Gestão de Salão com{" "}
-              <span className="text-gradient-hero">Inteligência</span>
+              <span className="font-bold" style={{
+                background: "linear-gradient(135deg, hsl(320 90% 55%), hsl(270 80% 60%))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                filter: "drop-shadow(0 2px 8px rgba(200, 50, 150, 0.5))",
+              }}>Inteligência</span>
             </h1>
             <p className="mb-8 text-lg leading-relaxed text-primary-foreground/80 md:text-xl">
               Agenda, estoque, financeiro e marketing — tudo automatizado com IA para que você foque no que importa: seus clientes.
