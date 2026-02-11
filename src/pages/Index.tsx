@@ -50,10 +50,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 glass">
+      <nav className="fixed top-0 left-0 right-0 z-50" style={{ background: "rgba(255,255,255,0.6)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.3)" }}>
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
-          <Link to="/" className="font-display text-2xl font-bold text-foreground">
-            Bella<span className="text-primary">Bonita</span>
+          <Link to="/" className="font-display text-2xl font-bold" style={{ color: "hsl(280 45% 25%)" }}>
+            Bella<span style={{ color: "hsl(320 80% 50%)" }}>Bonita</span>
           </Link>
           <div className="flex gap-3">
             <Button variant="ghost" asChild>
