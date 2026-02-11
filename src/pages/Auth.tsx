@@ -58,11 +58,16 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-warm px-4">
-      <Card className="w-full max-w-md shadow-elegant">
+    <div className="flex min-h-screen items-center justify-center px-4 relative overflow-hidden"
+      style={{ background: "linear-gradient(135deg, hsl(280 60% 96%), hsl(320 70% 95%), hsl(280 50% 98%))" }}
+    >
+      {/* Decorative blobs */}
+      <div className="absolute top-[-100px] left-[-60px] w-[250px] h-[250px] rounded-full opacity-25 blur-3xl" style={{ background: "hsl(320 80% 60%)" }} />
+      <div className="absolute bottom-[-80px] right-[-40px] w-[220px] h-[220px] rounded-full opacity-20 blur-3xl" style={{ background: "hsl(270 70% 55%)" }} />
+      <Card className="w-full max-w-md shadow-elegant relative z-10" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.5)" }}>
         <CardHeader className="text-center">
           <CardTitle className="font-display text-3xl font-bold">
-            Bella<span className="text-primary">Bonita</span>
+            Bella<span style={{ color: "hsl(320 80% 50%)" }}>Bonita</span>
           </CardTitle>
           <CardDescription>Gestão inteligente para seu salão</CardDescription>
         </CardHeader>
