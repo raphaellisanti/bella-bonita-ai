@@ -26,18 +26,15 @@ const BottomNav = () => {
               key={item.path}
               onClick={() => navigate(item.path)}
               className={cn(
-                "flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl transition-all min-w-0 flex-1",
+                "flex flex-col items-center justify-center p-2 rounded-xl transition-all flex-1",
                 isActive
                   ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              <item.icon className={cn("w-5 h-5 shrink-0", isActive && "drop-shadow-sm")} />
-              <span className="text-[10px] font-medium leading-tight truncate">
-                {item.label}
-              </span>
+              <item.icon className={cn("w-5 h-5", isActive && "drop-shadow-sm")} />
               {isActive && (
-                <div className="w-1 h-1 rounded-full bg-primary mt-0.5" />
+                <div className="w-1 h-1 rounded-full bg-primary mt-1" />
               )}
             </button>
           );
