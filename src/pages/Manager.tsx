@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import {
   Users, AlertTriangle, TrendingUp,
-  Award, BarChart3, Send, ArrowRight, Sparkles, Calendar
+  Award, BarChart3, Send, ArrowRight, Sparkles, Calendar, LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -59,6 +59,13 @@ const Manager = () => {
           </div>
           <div className="flex items-center gap-2">
             <span className="hidden md:inline text-sm text-muted-foreground">{userName}</span>
+            <button
+              onClick={async () => { await supabase.auth.signOut(); navigate("/"); }}
+              className="p-2 rounded-xl hover:bg-muted/30 transition text-muted-foreground hover:text-foreground"
+              title="Sair"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
             <div className="w-8 h-8 rounded-full bg-gradient-hero flex items-center justify-center text-primary-foreground text-xs font-bold">
               G
             </div>

@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import {
   Eye, EyeOff, Sparkles, Clock, CheckCircle2, Play, X,
   Calendar, Wallet, User, AlertCircle, Package, Minus, Plus,
-  ChevronRight
+  ChevronRight, LogOut
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -102,16 +103,25 @@ const Profissional = () => {
               </h1>
               <p className="text-primary-foreground/70 text-sm mt-0.5">{prof.role}</p>
             </div>
-            <button
-              onClick={() => setHideValues(!hideValues)}
-              className="p-2.5 rounded-xl bg-primary-foreground/10 hover:bg-primary-foreground/20 transition"
-            >
-              {hideValues ? (
-                <EyeOff className="w-5 h-5 text-primary-foreground/80" />
-              ) : (
-                <Eye className="w-5 h-5 text-primary-foreground/80" />
-              )}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={async () => { await supabase.auth.signOut(); navigate("/"); }}
+                className="p-2.5 rounded-xl bg-primary-foreground/10 hover:bg-primary-foreground/20 transition"
+                title="Sair"
+              >
+                <LogOut className="w-5 h-5 text-primary-foreground/80" />
+              </button>
+              <button
+                onClick={() => setHideValues(!hideValues)}
+                className="p-2.5 rounded-xl bg-primary-foreground/10 hover:bg-primary-foreground/20 transition"
+              >
+                {hideValues ? (
+                  <EyeOff className="w-5 h-5 text-primary-foreground/80" />
+                ) : (
+                  <Eye className="w-5 h-5 text-primary-foreground/80" />
+                )}
+              </button>
+            </div>
           </div>
 
           {/* Daily commission card */}
