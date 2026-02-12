@@ -11,9 +11,10 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import {
-  mockSalonProfile, mockBusinessHours, mockTeam, mockServices,
+  mockSalonProfile, mockBusinessHours, mockServices,
   mockAiBrain, roleLabels, TeamMember, SalonService, BusinessHours
 } from "@/components/settings/mockSettingsData";
+import { useTeam } from "@/contexts/TeamContext";
 
 type TabKey = "profile" | "team" | "ai" | "services";
 
@@ -175,7 +176,7 @@ const ProfileTab = () => {
 /* TAB 2: Gestão de Equipe                       */
 /* ============================================= */
 const TeamTab = () => {
-  const [team, setTeam] = useState<TeamMember[]>(mockTeam);
+  const { team, addMember, removeMember } = useTeam();
   const [showModal, setShowModal] = useState(false);
   const [editMember, setEditMember] = useState<TeamMember | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
@@ -207,7 +208,7 @@ const TeamTab = () => {
   };
 
   const handleDelete = (id: string) => {
-    setTeam(team.filter(m => m.id !== id));
+    removeMember(id);
     setDeleteConfirm(null);
   };
 
@@ -224,7 +225,7 @@ const TeamTab = () => {
       specialties: [],
       active: true,
     };
-    setTeam([...team, newMember]);
+    addMember(newMember);
     setShowModal(false);
     setNewName(""); setNewEmail(""); setNewPassword(""); setNewRole("professional"); setNewCommission(40);
   };
