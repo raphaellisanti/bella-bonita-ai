@@ -11,7 +11,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import ActivityFeed from "@/components/dashboard/ActivityFeed";
 import StockInsights from "@/components/dashboard/StockInsights";
-import BottomNav from "@/components/BottomNav";
 
 /* ===== Mock Data ===== */
 const teamPerformance = [
@@ -46,10 +45,8 @@ const Manager = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden pb-20">
-      {/* Decorative blobs */}
-      <div className="absolute top-[-120px] right-[-80px] w-[300px] h-[300px] rounded-full opacity-15 blur-3xl bg-primary" />
-      <div className="absolute bottom-[-100px] left-[-60px] w-[280px] h-[280px] rounded-full opacity-10 blur-3xl bg-accent" />
+    <>
+      {/* Decorative blobs are in ManagerLayout */}
 
       {/* ===== HEADER ===== */}
       <header className="sticky top-0 z-20 glass border-b border-border/40">
@@ -215,9 +212,7 @@ const Manager = () => {
           </div>
         </div>
       </main>
-
-      <BottomNav />
-    </div>
+    </>
   );
 };
 
