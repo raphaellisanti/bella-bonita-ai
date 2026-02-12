@@ -8,6 +8,7 @@ import BottomNav from "@/components/BottomNav";
 import BellaInsights from "@/components/dashboard/BellaInsights";
 import FinancialWidget from "@/components/dashboard/FinancialWidget";
 import ActivityFeed from "@/components/dashboard/ActivityFeed";
+import StockInsights from "@/components/dashboard/StockInsights";
 
 const quickStats = [
   { label: "Agendamentos Hoje", value: "12", icon: Calendar },
@@ -66,10 +67,11 @@ const Dashboard = () => {
           ))}
         </div>
 
-        {/* Main grid: Financial + Activity Feed */}
+        {/* Main grid: Financial + Activity + Stock */}
         <div className="grid gap-6 lg:grid-cols-5">
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 space-y-6">
             <FinancialWidget />
+            <StockInsights />
           </div>
           <div className="lg:col-span-2">
             <ActivityFeed />
