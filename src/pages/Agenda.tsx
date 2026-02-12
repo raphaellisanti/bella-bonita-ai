@@ -44,12 +44,12 @@ const Agenda = () => {
           className="flex flex-col gap-4"
         >
           {/* Calendar - Top */}
-          <div className="h-[60vh] min-h-[400px]">
+          <div style={{ height: "calc(100vh - 180px)", minHeight: "500px" }}>
             <AgendaCalendar events={mockCalendarEvents} />
           </div>
 
           {/* WhatsApp Chat - Bottom */}
-          <div className="h-[35vh] min-h-[300px]">
+          <div className="h-[40vh] min-h-[320px]">
             <WhatsAppChat conversations={mockConversations} />
           </div>
         </motion.div>
