@@ -10,10 +10,12 @@ export interface InboxContact {
   name: string;
   avatar: string;
   phone: string;
+  age: number;
   lastMessage: string;
   timestamp: string;
   status: "ai_talking" | "needs_attention" | "resolved";
   unread: boolean;
+  online: boolean;
   respondedBy: "ai" | "human";
   messages: InboxMessage[];
   // CRM data
@@ -21,6 +23,8 @@ export interface InboxContact {
   churnProbability: "low" | "medium" | "high";
   averageTicket: number;
   totalVisits: number;
+  ltv: number;
+  frequencyDays: number;
   pastAppointments: { date: string; service: string; professional: string }[];
 }
 
@@ -30,25 +34,28 @@ export const mockInboxContacts: InboxContact[] = [
     name: "Maria Silva",
     avatar: "MS",
     phone: "(11) 99832-4567",
-    lastMessage: "Perfeito, confirmo às 14h!",
+    age: 34,
+    lastMessage: "Quanto fica a morena iluminada?",
     timestamp: "agora",
     status: "ai_talking",
     unread: true,
+    online: true,
     respondedBy: "ai",
     messages: [
-      { id: "m1", sender: "client", text: "Oi, quero agendar um corte pra hoje", time: "10:02" },
-      { id: "m2", sender: "ai", text: "Olá Maria! 😊 Temos horários às 14h e 16h30 com a Juliana. Qual prefere?", time: "10:02" },
-      { id: "m3", sender: "client", text: "14h tá ótimo!", time: "10:03" },
-      { id: "m4", sender: "ai", text: "Maravilha! Reservei às 14h com a Juliana. Até lá! 💇‍♀️", time: "10:03" },
-      { id: "m5", sender: "client", text: "Perfeito, confirmo às 14h!", time: "10:04" },
+      { id: "m1", sender: "client", text: "Oii, tudo bem? Quero fazer morena iluminada!", time: "10:01" },
+      { id: "m2", sender: "ai", text: "Olá Maria! 😍 A Morena Iluminada é um dos nossos serviços mais pedidos! Temos disponibilidade com o Rafael (nosso especialista em coloração) nos seguintes horários:\n\n📅 Amanhã (Quinta): 9h ou 14h\n📅 Sexta: 10h ou 15h\n\nQual fica melhor para você?", time: "10:01" },
+      { id: "m3", sender: "client", text: "Quanto fica a morena iluminada?", time: "10:02" },
+      { id: "m4", sender: "ai", text: "A Morena Iluminada com o Rafael fica R$ 380! 💇‍♀️✨\n\nO procedimento inclui:\n• Estudo de colorimetria\n• Mechas técnica babylights\n• Tonalização\n• Finalização com produtos premium\n\nDuração: aproximadamente 3h30.\n\nQuer reservar um horário? Posso garantir sua vaga! 🌟", time: "10:02" },
     ],
     lastVisitDays: 32,
     churnProbability: "medium",
     averageTicket: 180,
     totalVisits: 12,
+    ltv: 2160,
+    frequencyDays: 25,
     pastAppointments: [
       { date: "10/01/2026", service: "Corte + Escova", professional: "Juliana" },
-      { date: "12/12/2025", service: "Hidratação", professional: "Juliana" },
+      { date: "12/12/2025", service: "Hidratação Profunda", professional: "Juliana" },
       { date: "15/11/2025", service: "Corte Feminino", professional: "Juliana" },
     ],
   },
@@ -57,10 +64,12 @@ export const mockInboxContacts: InboxContact[] = [
     name: "Ana Costa",
     avatar: "AC",
     phone: "(11) 98765-1234",
-    lastMessage: "Quanto custa a progressiva?",
+    age: 28,
+    lastMessage: "E demora quanto tempo?",
     timestamp: "5 min",
     status: "ai_talking",
     unread: true,
+    online: true,
     respondedBy: "ai",
     messages: [
       { id: "m1", sender: "client", text: "Boa tarde! Quanto custa a progressiva?", time: "09:55" },
@@ -72,6 +81,8 @@ export const mockInboxContacts: InboxContact[] = [
     churnProbability: "high",
     averageTicket: 250,
     totalVisits: 8,
+    ltv: 2000,
+    frequencyDays: 35,
     pastAppointments: [
       { date: "28/12/2025", service: "Progressiva", professional: "Rafael" },
       { date: "01/11/2025", service: "Coloração", professional: "Rafael" },
@@ -82,10 +93,12 @@ export const mockInboxContacts: InboxContact[] = [
     name: "Juliana Ramos",
     avatar: "JR",
     phone: "(11) 97654-3210",
-    lastMessage: "Pode ser amanhã às 10h?",
+    age: 41,
+    lastMessage: "Mas quero com a Juliana, não com a Camila",
     timestamp: "12 min",
     status: "needs_attention",
     unread: true,
+    online: true,
     respondedBy: "human",
     messages: [
       { id: "m1", sender: "client", text: "Oi, preciso de manicure + pedicure", time: "09:48" },
@@ -93,13 +106,14 @@ export const mockInboxContacts: InboxContact[] = [
       { id: "m3", sender: "client", text: "Hoje não consigo, e amanhã?", time: "09:49" },
       { id: "m4", sender: "ai", text: "Amanhã temos às 10h e 14h. Qual prefere?", time: "09:49" },
       { id: "m5", sender: "client", text: "Mas quero com a Juliana, não com a Camila", time: "09:50" },
-      { id: "m6", sender: "ai", text: "A Juliana não faz esse serviço. Vou transferir para a equipe verificar alternativas. 🙏", time: "09:50" },
-      { id: "m7", sender: "client", text: "Pode ser amanhã às 10h?", time: "09:51" },
+      { id: "m6", sender: "ai", text: "⚠️ A profissional Juliana não realiza esse serviço. Vou transferir para a equipe verificar alternativas. 🙏", time: "09:50" },
     ],
     lastVisitDays: 15,
     churnProbability: "low",
     averageTicket: 120,
     totalVisits: 24,
+    ltv: 2880,
+    frequencyDays: 14,
     pastAppointments: [
       { date: "28/01/2026", service: "Manicure + Pedicure", professional: "Camila" },
       { date: "14/01/2026", service: "Manicure", professional: "Camila" },
@@ -111,10 +125,12 @@ export const mockInboxContacts: InboxContact[] = [
     name: "Carla Mendes",
     avatar: "CM",
     phone: "(11) 96543-8765",
+    age: 36,
     lastMessage: "Obrigada! Até sábado 🥰",
     timestamp: "28 min",
     status: "resolved",
     unread: false,
+    online: false,
     respondedBy: "ai",
     messages: [
       { id: "m1", sender: "client", text: "Quero agendar coloração pro sábado", time: "09:32" },
@@ -127,6 +143,8 @@ export const mockInboxContacts: InboxContact[] = [
     churnProbability: "low",
     averageTicket: 320,
     totalVisits: 18,
+    ltv: 5760,
+    frequencyDays: 20,
     pastAppointments: [
       { date: "23/01/2026", service: "Coloração + Corte", professional: "Rafael" },
       { date: "02/01/2026", service: "Luzes", professional: "Rafael" },
@@ -137,10 +155,12 @@ export const mockInboxContacts: InboxContact[] = [
     name: "Patrícia Souza",
     avatar: "PS",
     phone: "(11) 95432-1098",
+    age: 22,
     lastMessage: "Vocês fazem design de sobrancelha?",
     timestamp: "45 min",
     status: "ai_talking",
     unread: false,
+    online: false,
     respondedBy: "ai",
     messages: [
       { id: "m1", sender: "client", text: "Vocês fazem design de sobrancelha?", time: "09:15" },
@@ -150,6 +170,8 @@ export const mockInboxContacts: InboxContact[] = [
     churnProbability: "high",
     averageTicket: 95,
     totalVisits: 3,
+    ltv: 285,
+    frequencyDays: 45,
     pastAppointments: [
       { date: "14/12/2025", service: "Design de Sobrancelha", professional: "Camila" },
     ],
@@ -159,10 +181,12 @@ export const mockInboxContacts: InboxContact[] = [
     name: "Fernanda Lima",
     avatar: "FL",
     phone: "(11) 94321-7654",
+    age: 29,
     lastMessage: "Chego em 10 minutos!",
     timestamp: "1h",
     status: "resolved",
     unread: false,
+    online: false,
     respondedBy: "human",
     messages: [
       { id: "m1", sender: "client", text: "Tô chegando, deu trânsito", time: "09:00" },
@@ -173,6 +197,8 @@ export const mockInboxContacts: InboxContact[] = [
     churnProbability: "low",
     averageTicket: 200,
     totalVisits: 30,
+    ltv: 6000,
+    frequencyDays: 12,
     pastAppointments: [
       { date: "05/02/2026", service: "Corte + Escova", professional: "Juliana" },
       { date: "22/01/2026", service: "Corte + Escova", professional: "Juliana" },
