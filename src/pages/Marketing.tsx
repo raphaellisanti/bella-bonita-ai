@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import BottomNav from "@/components/BottomNav";
 
 const objectives = [
   { id: "agenda", label: "Preencher Agenda", icon: Calendar },
@@ -123,7 +124,7 @@ const Marketing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-warm">
+    <div className="min-h-screen bg-gradient-warm pb-20">
       {/* Header */}
       <header className="sticky top-0 z-30 glass border-b border-white/20 px-6 py-4">
         <div className="flex items-center justify-between max-w-[1600px] mx-auto">
@@ -407,6 +408,7 @@ const Marketing = () => {
           </div>
         </div>
       </main>
+      <BottomNav />
     </div>
   );
 };
