@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Calendar, Users, Scissors, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import BottomNav from "@/components/BottomNav";
 import BellaInsights from "@/components/dashboard/BellaInsights";
 import FinancialWidget from "@/components/dashboard/FinancialWidget";
 import ActivityFeed from "@/components/dashboard/ActivityFeed";
@@ -37,7 +38,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden pb-20">
       {/* Decorative blobs */}
       <div className="absolute top-[-120px] right-[-80px] w-[300px] h-[300px] rounded-full opacity-15 blur-3xl bg-primary" />
       <div className="absolute bottom-[-100px] left-[-60px] w-[280px] h-[280px] rounded-full opacity-10 blur-3xl bg-accent" />
@@ -75,6 +76,7 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
+      <BottomNav />
     </div>
   );
 };

@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { mockProducts, estoqueKPIs, defaultCategories, type ProductStock } from '@/components/estoque/mockEstoqueData';
+import BottomNav from '@/components/BottomNav';
 
 const Estoque = () => {
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ const Estoque = () => {
   const criticalCount = products.filter(p => p.currentStock <= p.minStockAlert).length;
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground pb-20">
       {/* Header */}
       <header className="sticky top-0 z-30 glass border-b border-border/40">
         <div className="max-w-[1440px] mx-auto px-4 py-4 flex items-center justify-between">
@@ -559,6 +560,7 @@ const Estoque = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <BottomNav />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import AgendaCalendar from "@/components/agenda/AgendaCalendar";
 import { mockCalendarEvents } from "@/components/agenda/mockData";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { Bot, X, Eye } from "lucide-react";
+import BottomNav from "@/components/BottomNav";
 
 interface AINotification {
   id: string;
@@ -54,7 +55,7 @@ const Agenda = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden pb-20">
       {/* Decorative blobs */}
       <div className="absolute top-[-120px] right-[-80px] w-[300px] h-[300px] rounded-full opacity-15 blur-3xl bg-primary" />
       <div className="absolute bottom-[-100px] left-[-60px] w-[280px] h-[280px] rounded-full opacity-10 blur-3xl bg-accent" />
@@ -109,6 +110,7 @@ const Agenda = () => {
           ))}
         </AnimatePresence>
       </div>
+      <BottomNav />
     </div>
   );
 };

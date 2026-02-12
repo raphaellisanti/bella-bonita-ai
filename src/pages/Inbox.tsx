@@ -10,6 +10,7 @@ import {
   ChevronRight, Clock, Paperclip, Smile, Pause, Play,
   DollarSign, BarChart3, Repeat
 } from "lucide-react";
+import BottomNav from "@/components/BottomNav";
 
 type FilterType = "all" | "ai_talking" | "needs_attention" | "resolved";
 
@@ -69,7 +70,7 @@ const Inbox = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col pb-20">
       {/* Decorative blobs */}
       <div className="absolute top-[-120px] right-[-80px] w-[350px] h-[350px] rounded-full opacity-12 blur-3xl bg-primary pointer-events-none" />
       <div className="absolute bottom-[-100px] left-[-60px] w-[300px] h-[300px] rounded-full opacity-8 blur-3xl bg-accent pointer-events-none" />
@@ -406,6 +407,7 @@ const Inbox = () => {
           )}
         </div>
       </main>
+      <BottomNav />
     </div>
   );
 };

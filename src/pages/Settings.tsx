@@ -16,6 +16,7 @@ import {
 } from "@/components/settings/mockSettingsData";
 import { useTeam } from "@/contexts/TeamContext";
 import { Checkbox } from "@/components/ui/checkbox";
+import BottomNav from "@/components/BottomNav";
 
 type TabKey = "profile" | "team" | "ai" | "services";
 
@@ -46,7 +47,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col pb-20">
       <div className="absolute top-[-120px] right-[-80px] w-[350px] h-[350px] rounded-full opacity-12 blur-3xl bg-primary pointer-events-none" />
       <div className="absolute bottom-[-100px] left-[-60px] w-[300px] h-[300px] rounded-full opacity-8 blur-3xl bg-accent pointer-events-none" />
 
@@ -92,6 +93,7 @@ const Settings = () => {
           </AnimatePresence>
         </div>
       </main>
+      <BottomNav />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import {
   DollarSign, TrendingUp, Users, Package, CreditCard, Banknote,
   Smartphone, ChevronRight, X, ArrowDown, Percent
 } from "lucide-react";
+import BottomNav from "@/components/BottomNav";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
 } from "recharts";
@@ -64,7 +65,7 @@ const Financeiro = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden pb-20">
       {/* Decorative blobs */}
       <div className="absolute top-[-120px] right-[-80px] w-[300px] h-[300px] rounded-full opacity-15 blur-3xl bg-primary" />
       <div className="absolute bottom-[-100px] left-[-60px] w-[280px] h-[280px] rounded-full opacity-10 blur-3xl bg-accent" />
@@ -229,6 +230,7 @@ const Financeiro = () => {
           </motion.div>
         </>
       )}
+      <BottomNav />
     </div>
   );
 };
