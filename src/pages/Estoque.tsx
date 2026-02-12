@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
   Package, AlertTriangle, ShoppingCart, Plus, Minus, Scale, X, ArrowLeft,
-  BookOpen, Search, Settings, Truck, CalendarIcon
+  BookOpen, Search, Settings, Truck, CalendarIcon, Filter
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -24,6 +24,7 @@ const Estoque = () => {
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [newCategory, setNewCategory] = useState('');
   const [showAdjustModal, setShowAdjustModal] = useState<ProductStock | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [adjustValue, setAdjustValue] = useState('');
 
   // Manual form state
@@ -103,25 +104,46 @@ const Estoque = () => {
             <Package className="w-6 h-6 text-primary" />
             <h1 className="text-xl font-bold font-display">Gestão de Estoque</h1>
           </div>
-          <span className="text-sm text-muted-foreground">Atualizado agora</span>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="lg:hidden p-2 rounded-lg hover:bg-secondary transition"
+            >
+              <Filter className="w-5 h-5" />
+            </button>
+            <span className="text-sm text-muted-foreground hidden sm:inline">Atualizado agora</span>
+          </div>
         </div>
       </header>
 
       <div className="max-w-[1440px] mx-auto px-4 py-6 flex gap-6">
         {/* ===== SIDEBAR CATEGORIAS (20%) ===== */}
-        <aside className="w-[220px] shrink-0 space-y-4">
+        {/* Overlay for mobile */}
+        {sidebarOpen && (
+          <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={() => setSidebarOpen(false)} />
+        )}
+        <aside className={cn(
+          'shrink-0 space-y-4 transition-all duration-300',
+          'fixed top-0 left-0 z-50 h-full w-[260px] p-4 pt-20 bg-background border-r border-border lg:relative lg:z-auto lg:h-auto lg:w-[220px] lg:p-0 lg:pt-0 lg:bg-transparent lg:border-0',
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        )}>
           <div className="rounded-2xl border border-border bg-card/80 backdrop-blur-xl p-4 shadow-card">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-bold text-sm text-primary">Categorias</h2>
-              <button onClick={() => setShowCategoryModal(true)} className="p-1.5 rounded-lg hover:bg-secondary transition">
-                <Settings className="w-4 h-4 text-muted-foreground" />
-              </button>
+              <div className="flex items-center gap-1">
+                <button onClick={() => setShowCategoryModal(true)} className="p-1.5 rounded-lg hover:bg-secondary transition">
+                  <Settings className="w-4 h-4 text-muted-foreground" />
+                </button>
+                <button onClick={() => setSidebarOpen(false)} className="p-1.5 rounded-lg hover:bg-secondary transition lg:hidden">
+                  <X className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </div>
             </div>
             <nav className="space-y-1">
               {categories.map(cat => (
                 <button
                   key={cat}
-                  onClick={() => setSelectedCategory(cat)}
+                  onClick={() => { setSelectedCategory(cat); setSidebarOpen(false); }}
                   className={cn(
                     'w-full text-left px-3 py-2 rounded-xl text-sm font-medium transition-all',
                     selectedCategory === cat
