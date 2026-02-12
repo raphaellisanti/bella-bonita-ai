@@ -10,6 +10,7 @@ import Onboarding from "./pages/Onboarding";
 import Agenda from "./pages/Agenda";
 import Inbox from "./pages/Inbox";
 import Financeiro from "./pages/Financeiro";
+import Marketing from "./pages/Marketing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/agenda" element={<Agenda />} />
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/financeiro" element={<Financeiro />} />
+          <Route path="/marketing" element={<Marketing />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
