@@ -15,6 +15,7 @@ import Marketing from "./pages/Marketing";
 import Settings from "./pages/Settings";
 import Estoque from "./pages/Estoque";
 import Profissional from "./pages/Profissional";
+import Manager from "./pages/Manager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="/estoque" element={<Estoque />} />
             <Route path="/profissional" element={<Profissional />} />
+            <Route path="/manager" element={<Manager />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
