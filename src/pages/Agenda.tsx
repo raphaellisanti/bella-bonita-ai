@@ -41,17 +41,16 @@ const Agenda = () => {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="grid gap-4 lg:grid-cols-10"
-          style={{ height: "calc(100vh - 100px)" }}
+          className="flex flex-col gap-4"
         >
-          {/* WhatsApp Chat Sidebar - 30% */}
-          <div className="lg:col-span-3 min-h-[500px] lg:min-h-0">
-            <WhatsAppChat conversations={mockConversations} />
+          {/* Calendar - Top */}
+          <div className="h-[60vh] min-h-[400px]">
+            <AgendaCalendar events={mockCalendarEvents} />
           </div>
 
-          {/* Calendar - 70% */}
-          <div className="lg:col-span-7 min-h-[500px] lg:min-h-0">
-            <AgendaCalendar events={mockCalendarEvents} />
+          {/* WhatsApp Chat - Bottom */}
+          <div className="h-[35vh] min-h-[300px]">
+            <WhatsAppChat conversations={mockConversations} />
           </div>
         </motion.div>
       </main>
