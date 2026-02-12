@@ -16,6 +16,11 @@ import Settings from "./pages/Settings";
 import Estoque from "./pages/Estoque";
 import Profissional from "./pages/Profissional";
 import Manager from "./pages/Manager";
+import ManagerLayout from "./layouts/ManagerLayout";
+import ManagerAgenda from "./pages/manager/ManagerAgenda";
+import ManagerEstoque from "./pages/manager/ManagerEstoque";
+import ManagerInbox from "./pages/manager/ManagerInbox";
+import ManagerEquipe from "./pages/manager/ManagerEquipe";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,7 +44,13 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="/estoque" element={<Estoque />} />
             <Route path="/profissional" element={<Profissional />} />
-            <Route path="/manager" element={<Manager />} />
+            <Route path="/manager" element={<ManagerLayout />}>
+              <Route index element={<Manager />} />
+              <Route path="agenda" element={<ManagerAgenda />} />
+              <Route path="estoque" element={<ManagerEstoque />} />
+              <Route path="inbox" element={<ManagerInbox />} />
+              <Route path="equipe" element={<ManagerEquipe />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

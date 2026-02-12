@@ -1,7 +1,7 @@
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Calendar, MessageCircle, DollarSign, Megaphone,
-  Package, Settings, BarChart3
+  Package, Settings, BarChart3, Users
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -17,30 +17,24 @@ const adminNav = [
 
 const managerNav = [
   { path: "/manager", icon: BarChart3 },
-  { path: "/agenda", icon: Calendar },
-  { path: "/inbox", icon: MessageCircle },
-  { path: "/estoque", icon: Package },
-  { path: "/settings", icon: Settings },
+  { path: "/manager/agenda", icon: Calendar },
+  { path: "/manager/inbox", icon: MessageCircle },
+  { path: "/manager/estoque", icon: Package },
+  { path: "/manager/equipe", icon: Users },
 ];
 
-const BottomNav = () => {
+interface BottomNavProps {
+  variant?: "admin" | "manager";
+}
+
+const BottomNav = ({ variant }: BottomNavProps) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
-  const role = searchParams.get("role");
   const isManager =
-    role === "manager" || location.pathname === "/manager";
+    variant === "manager" || location.pathname.startsWith("/manager");
 
   const items = isManager ? managerNav : adminNav;
-
-  const handleNavigate = (path: string) => {
-    if (isManager && path !== "/manager") {
-      navigate(`${path}?role=manager`);
-    } else {
-      navigate(path);
-    }
-  };
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/40 bg-card/90 backdrop-blur-xl safe-area-bottom">
@@ -50,7 +44,7 @@ const BottomNav = () => {
           return (
             <button
               key={item.path}
-              onClick={() => handleNavigate(item.path)}
+              onClick={() => navigate(item.path)}
               className={cn(
                 "flex flex-col items-center justify-center p-2 rounded-xl transition-all flex-1",
                 isActive
