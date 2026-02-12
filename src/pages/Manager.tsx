@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import {
-  Calendar, Users, Package, MessageCircle, Settings,
-  Sparkles, UserCheck, AlertTriangle, Clock, TrendingUp,
-  Award, BarChart3, Send, ArrowRight
+  Users, AlertTriangle, TrendingUp,
+  Award, BarChart3, Send, ArrowRight, Sparkles, Calendar
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import ActivityFeed from "@/components/dashboard/ActivityFeed";
 import StockInsights from "@/components/dashboard/StockInsights";
+import BottomNav from "@/components/BottomNav";
 
 /* ===== Mock Data ===== */
 const teamPerformance = [
@@ -26,16 +26,6 @@ const operationalStats = [
   { label: "Agendamentos", value: "19", icon: Calendar, color: "text-foreground" },
   { label: "No-Shows Hoje", value: "2", icon: AlertTriangle, color: "text-destructive" },
   { label: "Equipe Ativa", value: "4/5", icon: Users, color: "text-foreground" },
-];
-
-type ManagerNavTab = "agenda" | "inbox" | "estoque" | "equipe" | "config";
-
-const managerNavItems = [
-  { key: "agenda" as ManagerNavTab, path: "/agenda", icon: Calendar },
-  { key: "inbox" as ManagerNavTab, path: "/inbox", icon: MessageCircle },
-  { key: "estoque" as ManagerNavTab, path: "/estoque", icon: Package },
-  { key: "equipe" as ManagerNavTab, path: "/settings", icon: Users },
-  { key: "config" as ManagerNavTab, path: "/settings", icon: Settings },
 ];
 
 const Manager = () => {
@@ -226,30 +216,7 @@ const Manager = () => {
         </div>
       </main>
 
-      {/* ===== BOTTOM NAV (Manager) ===== */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border/40 bg-card/90 backdrop-blur-xl safe-area-bottom">
-        <div className="flex items-center justify-around px-1 py-1.5">
-          {[
-            { path: "/manager", icon: BarChart3, active: true },
-            { path: "/agenda", icon: Calendar, active: false },
-            { path: "/inbox", icon: MessageCircle, active: false },
-            { path: "/estoque", icon: Package, active: false },
-            { path: "/settings", icon: Settings, active: false },
-          ].map((item) => (
-            <button
-              key={item.path}
-              onClick={() => navigate(item.path)}
-              className={cn(
-                "flex flex-col items-center justify-center p-2 rounded-xl transition-all flex-1",
-                item.active ? "text-primary" : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <item.icon className={cn("w-5 h-5", item.active && "drop-shadow-sm")} />
-              {item.active && <div className="w-1 h-1 rounded-full bg-primary mt-1" />}
-            </button>
-          ))}
-        </div>
-      </nav>
+      <BottomNav />
     </div>
   );
 };
