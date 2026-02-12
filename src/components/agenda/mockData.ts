@@ -25,6 +25,7 @@ export interface CalendarEvent {
   startMinute: number;
   durationMinutes: number;
   status: "confirmed" | "pending" | "soft_lock";
+  bookedBy: "ai" | "manual";
 }
 
 export const mockConversations: ChatConversation[] = [
@@ -118,18 +119,18 @@ export const mockConversations: ChatConversation[] = [
 ];
 
 export const mockCalendarEvents: CalendarEvent[] = [
-  { id: "e1", clientName: "Fernanda Lima", service: "Corte + Escova", professional: "Juliana", startHour: 8, startMinute: 0, durationMinutes: 60, status: "confirmed" },
-  { id: "e2", clientName: "Renata Oliveira", service: "Coloração", professional: "Rafael", startHour: 8, startMinute: 30, durationMinutes: 120, status: "confirmed" },
-  { id: "e3", clientName: "Beatriz Santos", service: "Manicure", professional: "Camila", startHour: 9, startMinute: 0, durationMinutes: 45, status: "confirmed" },
-  { id: "e4", clientName: "Luciana Ferreira", service: "Progressiva", professional: "Juliana", startHour: 10, startMinute: 0, durationMinutes: 150, status: "confirmed" },
-  { id: "e5", clientName: "Débora Almeida", service: "Pedicure", professional: "Camila", startHour: 10, startMinute: 0, durationMinutes: 60, status: "pending" },
-  { id: "e6", clientName: "Tatiane Rocha", service: "Corte Masculino", professional: "Rafael", startHour: 11, startMinute: 0, durationMinutes: 30, status: "confirmed" },
-  { id: "e7", clientName: "Amanda Dias", service: "Hidratação", professional: "Juliana", startHour: 13, startMinute: 0, durationMinutes: 60, status: "soft_lock" },
-  { id: "e8", clientName: "Maria Silva", service: "Corte Feminino", professional: "Juliana", startHour: 14, startMinute: 0, durationMinutes: 45, status: "pending" },
-  { id: "e9", clientName: "Priscila Nunes", service: "Escova", professional: "Camila", startHour: 14, startMinute: 0, durationMinutes: 45, status: "confirmed" },
-  { id: "e10", clientName: "Cristina Melo", service: "Unha Gel", professional: "Camila", startHour: 15, startMinute: 30, durationMinutes: 90, status: "confirmed" },
-  { id: "e11", clientName: "Sandra Pereira", service: "Luzes", professional: "Rafael", startHour: 14, startMinute: 0, durationMinutes: 120, status: "soft_lock" },
-  { id: "e12", clientName: "Vanessa Costa", service: "Corte + Barba", professional: "Rafael", startHour: 16, startMinute: 30, durationMinutes: 45, status: "pending" },
+  { id: "e1", clientName: "Fernanda Lima", service: "Corte + Escova", professional: "Juliana", startHour: 8, startMinute: 0, durationMinutes: 60, status: "confirmed", bookedBy: "manual" },
+  { id: "e2", clientName: "Renata Oliveira", service: "Coloração", professional: "Rafael", startHour: 8, startMinute: 30, durationMinutes: 120, status: "confirmed", bookedBy: "manual" },
+  { id: "e3", clientName: "Beatriz Santos", service: "Manicure", professional: "Camila", startHour: 9, startMinute: 0, durationMinutes: 45, status: "confirmed", bookedBy: "ai" },
+  { id: "e4", clientName: "Luciana Ferreira", service: "Progressiva", professional: "Juliana", startHour: 10, startMinute: 0, durationMinutes: 150, status: "confirmed", bookedBy: "manual" },
+  { id: "e5", clientName: "Débora Almeida", service: "Pedicure", professional: "Camila", startHour: 10, startMinute: 0, durationMinutes: 60, status: "pending", bookedBy: "ai" },
+  { id: "e6", clientName: "Tatiane Rocha", service: "Corte Masculino", professional: "Rafael", startHour: 11, startMinute: 0, durationMinutes: 30, status: "confirmed", bookedBy: "manual" },
+  { id: "e7", clientName: "Amanda Dias", service: "Hidratação", professional: "Juliana", startHour: 13, startMinute: 0, durationMinutes: 60, status: "soft_lock", bookedBy: "ai" },
+  { id: "e8", clientName: "Maria Silva", service: "Corte Feminino", professional: "Juliana", startHour: 14, startMinute: 0, durationMinutes: 45, status: "pending", bookedBy: "ai" },
+  { id: "e9", clientName: "Priscila Nunes", service: "Escova", professional: "Camila", startHour: 14, startMinute: 0, durationMinutes: 45, status: "confirmed", bookedBy: "manual" },
+  { id: "e10", clientName: "Cristina Melo", service: "Unha Gel", professional: "Camila", startHour: 15, startMinute: 30, durationMinutes: 90, status: "confirmed", bookedBy: "ai" },
+  { id: "e11", clientName: "Sandra Pereira", service: "Luzes", professional: "Rafael", startHour: 14, startMinute: 0, durationMinutes: 120, status: "soft_lock", bookedBy: "ai" },
+  { id: "e12", clientName: "Vanessa Costa", service: "Corte + Barba", professional: "Rafael", startHour: 16, startMinute: 30, durationMinutes: 45, status: "pending", bookedBy: "manual" },
 ];
 
 export const professionals = ["Juliana", "Rafael", "Camila"];

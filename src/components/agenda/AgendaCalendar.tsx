@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Bot, Power, Plus, Clock } from "lucide-react";
+import { ChevronLeft, ChevronRight, Bot, Power, Plus, Clock, User } from "lucide-react";
 import { CalendarEvent, professionals } from "./mockData";
 
 interface Props {
   events: CalendarEvent[];
 }
 
+const ROW_HEIGHT = 88;
 const hours = Array.from({ length: 12 }, (_, i) => i + 7);
 
 const statusColors: Record<string, { bg: string; border: string; text: string; label: string }> = {
@@ -29,9 +30,9 @@ const AgendaCalendar = ({ events }: Props) => {
   const dateStr = today.toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
   const getEventStyle = (event: CalendarEvent) => {
-    const top = (event.startHour - 7) * 72 + (event.startMinute / 60) * 72;
-    const height = (event.durationMinutes / 60) * 72;
-    return { top: `${top}px`, height: `${Math.max(height, 36)}px` };
+    const top = (event.startHour - 7) * ROW_HEIGHT + (event.startMinute / 60) * ROW_HEIGHT;
+    const height = (event.durationMinutes / 60) * ROW_HEIGHT;
+    return { top: `${top}px`, height: `${Math.max(height, 44)}px` };
   };
 
   const getColumnForProfessional = (name: string) => professionals.indexOf(name);
@@ -39,27 +40,29 @@ const AgendaCalendar = ({ events }: Props) => {
   const totalAppointments = events.length;
   const confirmedCount = events.filter(e => e.status === "confirmed").length;
   const pendingCount = events.filter(e => e.status === "pending").length;
+  const aiBookedCount = events.filter(e => e.bookedBy === "ai").length;
 
   return (
     <div className="h-full flex flex-col rounded-2xl overflow-hidden bg-card shadow-lg border border-border/40">
       {/* Top Bar */}
-      <div className="px-5 py-4 border-b border-border/30 bg-gradient-to-r from-primary/5 via-transparent to-accent/5">
+      <div className="px-6 py-4 border-b border-border/30 bg-gradient-to-r from-primary/5 via-transparent to-accent/5">
         <div className="flex items-center justify-between flex-wrap gap-3">
-          {/* Left: Date + Stats */}
           <div className="flex items-center gap-4">
             <div>
               <h2 className="text-lg font-bold text-foreground capitalize">{dateStr}</h2>
-              <div className="flex items-center gap-3 mt-1">
+              <div className="flex items-center gap-4 mt-1">
                 <span className="text-xs text-muted-foreground flex items-center gap-1">
                   <Clock className="w-3 h-3" /> {totalAppointments} agendamentos
                 </span>
-                <span className="text-xs text-emerald-600 dark:text-emerald-400">{confirmedCount} confirmados</span>
-                <span className="text-xs text-amber-600 dark:text-amber-400">{pendingCount} pendentes</span>
+                <span className="text-xs text-emerald-600 dark:text-emerald-400">✓ {confirmedCount} confirmados</span>
+                <span className="text-xs text-amber-600 dark:text-amber-400">⏳ {pendingCount} pendentes</span>
+                <span className="text-xs text-primary flex items-center gap-1">
+                  <Bot className="w-3 h-3" /> {aiBookedCount} pela IA
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Right: Controls */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => setAiActive(!aiActive)}
@@ -77,7 +80,7 @@ const AgendaCalendar = ({ events }: Props) => {
               <button className="p-1.5 rounded-md hover:bg-card transition-colors">
                 <ChevronLeft className="w-4 h-4 text-muted-foreground" />
               </button>
-              <span className="px-2 text-xs font-medium text-foreground">Hoje</span>
+              <span className="px-3 text-xs font-medium text-foreground">Hoje</span>
               <button className="p-1.5 rounded-md hover:bg-card transition-colors">
                 <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </button>
@@ -97,25 +100,34 @@ const AgendaCalendar = ({ events }: Props) => {
               ))}
             </div>
 
-            <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:bg-primary/90 transition-colors shadow-sm">
+            <button className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:bg-primary/90 transition-colors shadow-sm">
               <Plus className="w-3.5 h-3.5" />
-              Novo
+              Novo Agendamento
             </button>
           </div>
         </div>
       </div>
 
       {/* Legend */}
-      <div className="px-5 py-2.5 flex items-center justify-between border-b border-border/20 bg-muted/20">
-        <div className="flex items-center gap-5">
+      <div className="px-6 py-2.5 flex items-center justify-between border-b border-border/20 bg-muted/20">
+        <div className="flex items-center gap-6">
           {Object.entries(statusColors).map(([key, val]) => (
             <div key={key} className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded ${val.bg} border-l-2 ${val.border}`} />
               <span className="text-[11px] text-muted-foreground font-medium">{val.label}</span>
             </div>
           ))}
+          <div className="w-px h-4 bg-border/40" />
+          <div className="flex items-center gap-1.5">
+            <Bot className="w-3 h-3 text-primary" />
+            <span className="text-[11px] text-muted-foreground">IA</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <User className="w-3 h-3 text-muted-foreground" />
+            <span className="text-[11px] text-muted-foreground">Manual</span>
+          </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           {professionals.map((p) => (
             <div key={p} className="flex items-center gap-1.5">
               <div className={`w-2.5 h-2.5 rounded-full bg-gradient-to-br ${professionalColors[p]}`} />
@@ -129,14 +141,14 @@ const AgendaCalendar = ({ events }: Props) => {
       <div className="flex-1 overflow-auto min-h-0">
         {/* Professional column headers */}
         <div className="sticky top-0 z-20 grid border-b border-border/30 bg-card/95 backdrop-blur-sm"
-          style={{ gridTemplateColumns: `64px repeat(${professionals.length}, 1fr)` }}
+          style={{ gridTemplateColumns: `72px repeat(${professionals.length}, 1fr)` }}
         >
           <div className="px-3 py-3 text-[11px] text-muted-foreground font-medium border-r border-border/20 flex items-center">
-            <Clock className="w-3.5 h-3.5 mr-1" /> Hora
+            <Clock className="w-3.5 h-3.5 mr-1.5" /> Hora
           </div>
           {professionals.map((p) => (
-            <div key={p} className={`px-3 py-3 text-center border-r border-border/10 last:border-r-0 bg-gradient-to-b ${professionalColors[p]}`}>
-              <span className="text-xs font-semibold text-foreground">{p}</span>
+            <div key={p} className={`px-4 py-3 text-center border-r border-border/10 last:border-r-0 bg-gradient-to-b ${professionalColors[p]}`}>
+              <span className="text-sm font-semibold text-foreground">{p}</span>
             </div>
           ))}
         </div>
@@ -147,9 +159,9 @@ const AgendaCalendar = ({ events }: Props) => {
             <div
               key={hour}
               className="grid border-b border-border/10 hover:bg-muted/5 transition-colors"
-              style={{ gridTemplateColumns: `64px repeat(${professionals.length}, 1fr)`, height: "72px" }}
+              style={{ gridTemplateColumns: `72px repeat(${professionals.length}, 1fr)`, height: `${ROW_HEIGHT}px` }}
             >
-              <div className="px-3 py-2 text-[11px] text-muted-foreground/80 border-r border-border/15 font-mono font-medium">
+              <div className="px-3 py-2 text-xs text-muted-foreground/80 border-r border-border/15 font-mono font-medium">
                 {String(hour).padStart(2, "0")}:00
               </div>
               {professionals.map((p) => (
@@ -166,6 +178,7 @@ const AgendaCalendar = ({ events }: Props) => {
             const sc = statusColors[event.status];
             const leftPercent = (col / colCount) * 100;
             const widthPercent = (1 / colCount) * 100;
+            const isSoftLock = event.status === "soft_lock";
 
             return (
               <motion.div
@@ -173,16 +186,21 @@ const AgendaCalendar = ({ events }: Props) => {
                 initial={{ opacity: 0, x: -4 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: col * 0.05 }}
-                className={`absolute rounded-lg px-3 py-2 border-l-3 cursor-pointer transition-all hover:shadow-lg hover:scale-[1.01] ${sc.bg} ${sc.border}`}
+                className={`absolute rounded-lg px-3 py-2 border-l-3 cursor-pointer transition-all hover:shadow-lg hover:scale-[1.01] ${sc.bg} ${sc.border} ${isSoftLock ? "animate-pulse" : ""}`}
                 style={{
                   top: style.top,
                   height: style.height,
-                  left: `calc(64px + ${leftPercent}% + 4px)`,
-                  width: `calc(${widthPercent}% - 8px)`,
+                  left: `calc(72px + (100% - 72px) * ${col / colCount} + 4px)`,
+                  width: `calc((100% - 72px) / ${colCount} - 8px)`,
                   borderLeftWidth: "3px",
                 }}
               >
-                <p className="text-xs font-semibold text-foreground truncate leading-tight">{event.clientName}</p>
+                <div className="flex items-start justify-between gap-1">
+                  <p className="text-xs font-semibold text-foreground truncate leading-tight">{event.clientName}</p>
+                  <span className="shrink-0 text-sm leading-none" title={event.bookedBy === "ai" ? "Agendado pela IA" : "Agendamento manual"}>
+                    {event.bookedBy === "ai" ? "🤖" : "👤"}
+                  </span>
+                </div>
                 <p className="text-[11px] text-muted-foreground truncate mt-0.5">{event.service}</p>
                 <p className={`text-[10px] mt-0.5 font-medium ${sc.text}`}>
                   {String(event.startHour).padStart(2, "0")}:{String(event.startMinute).padStart(2, "0")} · {event.durationMinutes}min
