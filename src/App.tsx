@@ -21,6 +21,7 @@ import ManagerAgenda from "./pages/manager/ManagerAgenda";
 import ManagerEstoque from "./pages/manager/ManagerEstoque";
 import ManagerInbox from "./pages/manager/ManagerInbox";
 import ManagerEquipe from "./pages/manager/ManagerEquipe";
+import Install from "./pages/Install";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="inbox" element={<ManagerInbox />} />
               <Route path="equipe" element={<ManagerEquipe />} />
             </Route>
+            <Route path="/install" element={<Install />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
