@@ -6,7 +6,9 @@ export interface TeamMember {
   email: string;
   phone: string;
   commission: number;
+  productCommission: number;
   specialties: string[];
+  assignedServices: string[]; // service IDs from mockServices
   active: boolean;
 }
 
@@ -49,11 +51,11 @@ export const mockBusinessHours: BusinessHours[] = [
 ];
 
 export const mockTeam: TeamMember[] = [
-  { id: "1", name: "Carlos Mendes", avatar: "CM", role: "admin", email: "carlos@bellahair.com.br", phone: "(11) 99999-0001", commission: 0, specialties: ["Gestão"], active: true },
-  { id: "2", name: "Juliana Santos", avatar: "JS", role: "professional", email: "juliana@bellahair.com.br", phone: "(11) 99999-0002", commission: 40, specialties: ["Corte Feminino", "Escova", "Penteado"], active: true },
-  { id: "3", name: "Rafael Costa", avatar: "RC", role: "professional", email: "rafael@bellahair.com.br", phone: "(11) 99999-0003", commission: 45, specialties: ["Coloração", "Mechas", "Morena Iluminada"], active: true },
-  { id: "4", name: "Camila Oliveira", avatar: "CO", role: "professional", email: "camila@bellahair.com.br", phone: "(11) 99999-0004", commission: 35, specialties: ["Manicure", "Pedicure", "Nail Art"], active: true },
-  { id: "5", name: "Amanda Reis", avatar: "AR", role: "manager", email: "amanda@bellahair.com.br", phone: "(11) 99999-0005", commission: 0, specialties: ["Gestão", "Atendimento"], active: true },
+  { id: "1", name: "Carlos Mendes", avatar: "CM", role: "admin", email: "carlos@bellahair.com.br", phone: "(11) 99999-0001", commission: 0, productCommission: 0, specialties: ["Gestão"], assignedServices: [], active: true },
+  { id: "2", name: "Juliana Santos", avatar: "JS", role: "professional", email: "juliana@bellahair.com.br", phone: "(11) 99999-0002", commission: 40, productCommission: 0, specialties: ["Corte Feminino", "Escova", "Penteado"], assignedServices: ["1", "3"], active: true },
+  { id: "3", name: "Rafael Costa", avatar: "RC", role: "professional", email: "rafael@bellahair.com.br", phone: "(11) 99999-0003", commission: 45, productCommission: 0, specialties: ["Coloração", "Mechas", "Morena Iluminada"], assignedServices: ["5", "6", "7"], active: true },
+  { id: "4", name: "Camila Oliveira", avatar: "CO", role: "professional", email: "camila@bellahair.com.br", phone: "(11) 99999-0004", commission: 35, productCommission: 0, specialties: ["Manicure", "Pedicure", "Nail Art"], assignedServices: ["10", "11"], active: true },
+  { id: "5", name: "Amanda Reis", avatar: "AR", role: "manager", email: "amanda@bellahair.com.br", phone: "(11) 99999-0005", commission: 0, productCommission: 0, specialties: ["Gestão", "Atendimento"], assignedServices: [], active: true },
 ];
 
 export const mockServices: SalonService[] = [

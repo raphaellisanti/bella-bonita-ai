@@ -15,6 +15,7 @@ import {
   mockAiBrain, roleLabels, TeamMember, SalonService, BusinessHours
 } from "@/components/settings/mockSettingsData";
 import { useTeam } from "@/contexts/TeamContext";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type TabKey = "profile" | "team" | "ai" | "services";
 
@@ -176,7 +177,7 @@ const ProfileTab = () => {
 /* TAB 2: Gestão de Equipe                       */
 /* ============================================= */
 const TeamTab = () => {
-  const { team, addMember, removeMember } = useTeam();
+  const { team, addMember, updateMember, removeMember } = useTeam();
   const [showModal, setShowModal] = useState(false);
   const [editMember, setEditMember] = useState<TeamMember | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
@@ -190,6 +191,7 @@ const TeamTab = () => {
   const [newProductCommission, setNewProductCommission] = useState(10);
   const [enableCommission, setEnableCommission] = useState(true);
   const [enableProductCommission, setEnableProductCommission] = useState(false);
+  const [newAssignedServices, setNewAssignedServices] = useState<string[]>([]);
 
   // Edit member form state
   const [editCommission, setEditCommission] = useState(0);
@@ -197,14 +199,16 @@ const TeamTab = () => {
   const [editEnableCommission, setEditEnableCommission] = useState(false);
   const [editEnableProductCommission, setEditEnableProductCommission] = useState(false);
   const [editRole, setEditRole] = useState<"admin" | "manager" | "professional">("professional");
+  const [editAssignedServices, setEditAssignedServices] = useState<string[]>([]);
 
   const openEdit = (member: TeamMember) => {
     setEditMember(member);
     setEditRole(member.role);
     setEditCommission(member.commission);
-    setEditProductCommission((member as any).productCommission || 10);
+    setEditProductCommission(member.productCommission || 10);
     setEditEnableCommission(member.role === "professional" ? true : member.commission > 0);
-    setEditEnableProductCommission((member as any).productCommission > 0);
+    setEditEnableProductCommission(member.productCommission > 0);
+    setEditAssignedServices(member.assignedServices || []);
   };
 
   const handleDelete = (id: string) => {
@@ -222,13 +226,26 @@ const TeamTab = () => {
       email: newEmail,
       phone: "",
       commission: (newRole === "professional" || (newRole === "manager" && enableCommission)) ? newCommission : 0,
+      productCommission: enableProductCommission ? newProductCommission : 0,
       specialties: [],
+      assignedServices: newAssignedServices,
       active: true,
     };
     addMember(newMember);
     setShowModal(false);
     setNewName(""); setNewEmail(""); setNewPassword(""); setNewRole("professional"); setNewCommission(40);
+    setNewAssignedServices([]);
   };
+
+  const toggleService = (id: string, list: string[], setter: (v: string[]) => void) => {
+    setter(list.includes(id) ? list.filter(s => s !== id) : [...list, id]);
+  };
+
+  // Group services by category
+  const servicesByCategory = mockServices.filter(s => s.active).reduce((acc, svc) => {
+    (acc[svc.category] = acc[svc.category] || []).push(svc);
+    return acc;
+  }, {} as Record<string, SalonService[]>);
 
   const showCommissionForRole = (role: string) => role === "professional";
   const showOptionalCommissionForRole = (role: string) => role === "manager";
@@ -262,9 +279,15 @@ const TeamTab = () => {
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">{member.email}</p>
                   <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                    {member.specialties.map((s) => (
-                      <span key={s} className="text-[10px] px-2 py-0.5 rounded-full bg-muted/40 text-muted-foreground">{s}</span>
-                    ))}
+                    {(member.assignedServices || []).length > 0
+                      ? member.assignedServices.map((sId) => {
+                          const svc = mockServices.find(s => s.id === sId);
+                          return svc ? <span key={sId} className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{svc.name}</span> : null;
+                        })
+                      : member.specialties.map((s) => (
+                          <span key={s} className="text-[10px] px-2 py-0.5 rounded-full bg-muted/40 text-muted-foreground">{s}</span>
+                        ))
+                    }
                   </div>
                 </div>
                 <div className="flex items-center gap-4 shrink-0">
@@ -369,6 +392,33 @@ const TeamTab = () => {
                 </div>
               )}
 
+              {/* Service Assignment */}
+              {(newRole === "professional" || newRole === "manager") && (
+                <div className="space-y-3 p-4 rounded-xl bg-muted/10 border border-border/15">
+                  <label className="text-xs font-bold text-foreground flex items-center gap-1.5">
+                    <Scissors className="w-3.5 h-3.5 text-primary" /> Serviços Atribuídos
+                  </label>
+                  <p className="text-[11px] text-muted-foreground -mt-1">Selecione os serviços que este profissional pode realizar</p>
+                  <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
+                    {Object.entries(servicesByCategory).map(([cat, svcs]) => (
+                      <div key={cat}>
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">{cat}</p>
+                        <div className="space-y-1">
+                          {svcs.map(svc => (
+                            <label key={svc.id} className={`flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer transition-colors ${newAssignedServices.includes(svc.id) ? "bg-primary/10 border border-primary/20" : "hover:bg-muted/20 border border-transparent"}`}>
+                              <Checkbox checked={newAssignedServices.includes(svc.id)} onCheckedChange={() => toggleService(svc.id, newAssignedServices, setNewAssignedServices)} />
+                              <span className="text-sm text-foreground">{svc.name}</span>
+                              <span className="text-[10px] text-muted-foreground ml-auto">R$ {svc.price}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-muted-foreground">{newAssignedServices.length} serviço(s) selecionado(s)</p>
+                </div>
+              )}
+
               <div className="flex gap-3 pt-2">
                 <button onClick={() => setShowModal(false)} className="flex-1 px-4 py-2.5 rounded-xl border border-border/30 text-sm font-medium text-muted-foreground hover:bg-muted/30 transition-colors">Cancelar</button>
                 <button onClick={handleAddMember} className="flex-1 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:bg-primary/90 transition-colors">Salvar</button>
@@ -444,9 +494,36 @@ const TeamTab = () => {
                 </div>
               )}
 
+              {/* Service Assignment - Edit */}
+              {(editRole === "professional" || editRole === "manager") && (
+                <div className="space-y-3 p-4 rounded-xl bg-muted/10 border border-border/15">
+                  <label className="text-xs font-bold text-foreground flex items-center gap-1.5">
+                    <Scissors className="w-3.5 h-3.5 text-primary" /> Serviços Atribuídos
+                  </label>
+                  <p className="text-[11px] text-muted-foreground -mt-1">Selecione os serviços que este profissional pode realizar</p>
+                  <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
+                    {Object.entries(servicesByCategory).map(([cat, svcs]) => (
+                      <div key={cat}>
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">{cat}</p>
+                        <div className="space-y-1">
+                          {svcs.map(svc => (
+                            <label key={svc.id} className={`flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer transition-colors ${editAssignedServices.includes(svc.id) ? "bg-primary/10 border border-primary/20" : "hover:bg-muted/20 border border-transparent"}`}>
+                              <Checkbox checked={editAssignedServices.includes(svc.id)} onCheckedChange={() => toggleService(svc.id, editAssignedServices, setEditAssignedServices)} />
+                              <span className="text-sm text-foreground">{svc.name}</span>
+                              <span className="text-[10px] text-muted-foreground ml-auto">R$ {svc.price}</span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-muted-foreground">{editAssignedServices.length} serviço(s) selecionado(s)</p>
+                </div>
+              )}
+
               <div className="flex gap-3 pt-2">
                 <button onClick={() => setEditMember(null)} className="flex-1 px-4 py-2.5 rounded-xl border border-border/30 text-sm font-medium text-muted-foreground hover:bg-muted/30 transition-colors">Cancelar</button>
-                <button onClick={() => setEditMember(null)} className="flex-1 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:bg-primary/90 transition-colors">Salvar</button>
+                <button onClick={() => { updateMember(editMember.id, { role: editRole, commission: editCommission, productCommission: editEnableProductCommission ? editProductCommission : 0, assignedServices: editAssignedServices }); setEditMember(null); }} className="flex-1 px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:bg-primary/90 transition-colors">Salvar</button>
               </div>
             </div>
           </ModalOverlay>
